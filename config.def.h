@@ -144,6 +144,16 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "foot", "tmux", NULL };
 static const char *menucmd[] = { "wofi", "-m", "-I", "--show", "drun", NULL };
+static const char *brightnessupcmd[] = { "/home/rob/.config/dwl/brightness.sh", "up", NULL };
+static const char *brightnessdowncmd[] = { "/home/rob/.config/dwl/brightness.sh", "down", NULL };
+static const char *volupcmd[] = { "/home/rob/.config/dwl/vol.sh", "up", NULL };
+static const char *voldowncmd[] = { "/home/rob/.config/dwl/vol.sh", "down", NULL };
+static const char *voltogglecmd[] = { "/home/rob/.config/dwl/vol.sh", "toggle", NULL };
+static const char *ariocmd[] = { "ario", NULL };
+static const char *mpcnextcmd[] = { "mpc", "next", NULL };
+static const char *mpctogglecmd[] = { "mpc", "toggle", NULL };
+static const char *mpcprevcmd[] = { "mpc", "prev", NULL };
+static const char *pcmanfmqtcmd[] = { "pcmanfm-qt", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
@@ -181,6 +191,24 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                      7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
+
+#if HOSTNAME == ROB_LAPTOP
+	{ 0                        , XKB_KEY_XF86MonBrightnessUp,           spawn,            {.v = brightnessupcmd} },
+	{ 0                        , XKB_KEY_XF86MonBrightnessDown,         spawn,            {.v = brightnessdowncmd} },
+	{ 0                        , XKB_KEY_XF86AudioLowerVolume,          spawn,            {.v = voldowncmd} },
+	{ 0                        , XKB_KEY_XF86AudioRaiseVolume,          spawn,            {.v = volupcmd} },
+	{ 0                        , XKB_KEY_XF86AudioMute,                 spawn,            {.v = voltogglecmd} },
+#endif
+#if HOSTNAME == ROB_PC
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_m,           spawn,        {.v = voldowncmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_n,           spawn,        {.v = voltogglecmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_o,           spawn,        {.v = volupcmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_e,           spawn,        {.v = ariocmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_a,           spawn,        {.v = mpcprevcmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_b,           spawn,        {.v = mpctogglecmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_c,           spawn,        {.v = mpcnextcmd} },
+#endif
+	
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
