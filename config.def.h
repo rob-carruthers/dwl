@@ -200,16 +200,6 @@ static const Key keys[] = {
 	{ 0                        , XKB_KEY_XF86AudioRaiseVolume,          spawn,            {.v = volupcmd} },
 	{ 0                        , XKB_KEY_XF86AudioMute,                 spawn,            {.v = voltogglecmd} },
 #endif
-#if HOSTNAME == ROB_PC
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_m,           spawn,        {.v = voldowncmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_n,           spawn,        {.v = voltogglecmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_o,           spawn,        {.v = volupcmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_e,           spawn,        {.v = ariocmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_a,           spawn,        {.v = mpcprevcmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_b,           spawn,        {.v = mpctogglecmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_c,           spawn,        {.v = mpcnextcmd} },
-#endif
-	
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
@@ -220,6 +210,27 @@ static const Key keys[] = {
 	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6),
 	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
 };
+
+static const Key lockedkeys[] = {
+	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
+	/* modifier                  key                 function        argument */
+
+	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
+	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
+#define CHVT(n) { WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_XF86Switch_VT_##n, chvt, {.ui = (n)} }
+	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6),
+	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
+#if HOSTNAME == ROB_PC
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_m,           spawn,        {.v = voldowncmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_n,           spawn,        {.v = voltogglecmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_o,           spawn,        {.v = volupcmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_e,           spawn,        {.v = ariocmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_a,           spawn,        {.v = mpcprevcmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_b,           spawn,        {.v = mpctogglecmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,                    XKB_KEY_c,           spawn,        {.v = mpcnextcmd} },
+#endif
+};
+
 
 static const Button buttons[] = {
 	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
