@@ -294,6 +294,7 @@ static void handlesig(int signo);
 static void incnmaster(const Arg *arg);
 static void inputdevice(struct wl_listener *listener, void *data);
 static int keybinding(uint32_t mods, xkb_keysym_t sym);
+static int lockedkeybinding(uint32_t mods, xkb_keysym_t sym);
 static void keypress(struct wl_listener *listener, void *data);
 static void keypressmod(struct wl_listener *listener, void *data);
 static int keyrepeat(void *data);
@@ -1629,6 +1630,22 @@ keybinding(uint32_t mods, xkb_keysym_t sym)
 	return 0;
 }
 
+int
+lockedkeybinding(uint32_t mods, xkb_keysym_t sym)
+{
+	int handled = 0;
+	const Key *k;
+	for (k = lockedkeys; k < END(lockedkeys); k++) {
+		if (CLEANMASK(mods) == CLEANMASK(k->mod) &&
+				xkb_keysym_to_lower(sym) == xkb_keysym_to_lower(k->keysym) && k->func) {
+			k->func(&k->arg);
+			handled = 1;
+		}
+	}
+	return handled;
+}
+
+
 void
 keypress(struct wl_listener *listener, void *data)
 {
@@ -1655,6 +1672,11 @@ keypress(struct wl_listener *listener, void *data)
 		for (i = 0; i < nsyms; i++)
 			handled = keybinding(mods, syms[i]) || handled;
 	}
+
+	if (locked && event->state == WL_KEYBOARD_KEY_STATE_PRESSED)
+		wlr_log(WLR_ERROR, "locked keypress mods=%d sym=%d", mods, syms[0]);
+		for (i = 0; i < nsyms; i++)
+			handled = lockedkeybinding(mods, syms[i]) || handled;
 
 	if (handled && group->wlr_group->keyboard.repeat_info.delay > 0) {
 		group->mods = mods;
