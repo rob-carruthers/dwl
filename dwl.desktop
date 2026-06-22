@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=dwl
+Name=dwl (local)
 Comment=dwm for Wayland
 Exec=/home/rob/.config/dwl/start.bash
 Type=Application
