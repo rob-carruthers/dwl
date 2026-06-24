@@ -21,7 +21,11 @@ static const float focuscolor[]            = COLOR(0x005577ff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
+#if HOSTNAME == ROB_PC
 static const char *fonts[]                 = {"JetBrainsMonoNL Nerd Font Mono:size=9"};
+#else
+static const char *fonts[]                 = {"JetBrainsMonoNL Nerd Font Mono:size=12"};
+#endif
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 static uint32_t colors[][3]                = {
