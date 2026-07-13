@@ -167,6 +167,7 @@ static const char *mpcnextcmd[] = { "mpc", "next", NULL };
 static const char *mpctogglecmd[] = { "mpc", "toggle", NULL };
 static const char *mpcprevcmd[] = { "mpc", "prev", NULL };
 static const char *pcmanfmqtcmd[] = { "pcmanfm-qt", NULL };
+static const char *gtklockcmd[] = { "gtklock", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
@@ -179,6 +180,7 @@ static const Key keys[] = {
 	// { MODKEY,                    XKB_KEY_d,           incnmaster,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_h,           setmfact,         {.f = -0.05f} },
 	{ MODKEY,                    XKB_KEY_l,           setmfact,         {.f = +0.05f} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_l,           spawn,            {.v = gtklockcmd} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,      zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_Tab,         view,             {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           killclient,       {0} },
